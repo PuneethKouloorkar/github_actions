@@ -1,0 +1,31 @@
+name: counts number of visitors
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  run_unit_test:
+    name: visitor_counter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3
+      
+      - name: Test
+        run: | 
+          docker build -t v_c .
+          docker run v_c python testing.py
+
+      - name: Deploy to EBS
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: visitor_counter
+          environment_name: Visitorcounter-env
+          version_label: 1
+          region: eu-central-1
+
+
+

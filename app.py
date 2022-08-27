@@ -1,5 +1,5 @@
 from flask import Flask
-from utils import visitor_count
+from utils import visitor_counter
 
 
 app = Flask(__name__)
@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    new_count = visitor_count()
+    new_count = visitor_counter()
 
     f = open("visitor_count.txt", "w")
     f.write(new_count)
