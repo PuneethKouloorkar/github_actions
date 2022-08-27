@@ -15,7 +15,8 @@ jobs:
       - name: Test
         run: | 
           docker build -t v_c .
-          docker run v_c python testing.py
+          docker run --entrypoint '/bin/bash' v_c -c 'python testing.py'
+
 
       - name: Deploy to EBS
         uses: einaregilsson/beanstalk-deploy@v20
